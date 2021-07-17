@@ -28,12 +28,12 @@ const MusicPlayer = () => {
     audioRef.current.volume = state.volume
   }, [state.volume])
 
-  const song = state.media[state.currentSongId]
+  var song = state.media[state.currentSongId]
+  
 
   return (
     <StoreContext.Provider value={{ state, dispatch }}>
       <div css={CSS}>
-       {/*  <Topbar /> */}
         <Sidebar />
         <Content />
         <Playbar />

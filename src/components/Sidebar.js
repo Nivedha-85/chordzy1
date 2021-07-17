@@ -96,7 +96,7 @@ const Sidebar = () => {
 }
 
 const CSS = css`
-  width: 200px;
+  width: 300px;
   height: 100%;
   background: linear-gradient(#000000,#000e34,#1a001a);
   padding-top: 20px;
@@ -144,12 +144,12 @@ const CSS = css`
   
   //chordzy-name
   .text {
-    font-size: 15px;
+    font-size: 20px;
     padding-left: 20px;
     position:relative;
     //display- sets whether an element is block or inline
     display: inline flow-root list-item;
-    right:40px;
+    right:90px;
     float:right;
     font-style:italic;
   }

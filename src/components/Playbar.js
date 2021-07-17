@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useContext, useCallback } from 'react'
+import React, { useContext, useCallback, useState } from 'react'
 import { css, jsx } from '@emotion/core'
 import { StoreContext } from './index'
 import logo from '../img/logo10.png'
@@ -17,7 +17,9 @@ const handleProgress = (currentTime, duration) => 600 * (currentTime / duration)
 
 const Playbar = () => {
   const { state, dispatch } = useContext(StoreContext)
+ 
   const song = state.media[state.currentSongId]
+  
 
   if (!song) {
     return <div className="Playbar" css={CSS} />
@@ -59,7 +61,7 @@ const Playbar = () => {
                 style={{ transform: state.playing ? '' : 'translateX(1.5px)' }}
               />
             </div>
-            <div className="forward-icon" >
+            <div className="forward-icon">
               <i className={'fa fa-fast-forward'} />
             </div>
             <div className="shuffle-icon" >
@@ -114,6 +116,7 @@ const CSS = css`
 
   .left {
     width: 300px;
+    
 
     .artist {
       font-size: 14px;
