@@ -4,7 +4,7 @@ import { css, jsx } from '@emotion/core'
 import { StoreContext } from './index'
 import Modal from './Modal'
 import Toast from './Toast'
-import logo from '../img/logoNew1.png'
+import logo from '../img/logoNew2.png'
 
 const Sidebar = () => {
   const [sidebarState, setState] = useState({
@@ -12,6 +12,7 @@ const Sidebar = () => {
     toast: ''
   })
 
+  //accepts a context object (the value returned from React.createContext) and returns the current context value
   const { state, dispatch } = useContext(StoreContext)
 
   const playlistRef = useRef(null)

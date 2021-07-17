@@ -40,7 +40,7 @@ export const reducer = (state, action) => {
         currentSongId: action.songId || state.currentSongId
       }
     case 'PAUSE':
-      return { ...state, playing: false, currentTime:action.time }
+      return { ...state, playing: false }
     case 'REMOVE_FAVORITE':
       state.playlists.favorites.delete(action.songId)
       return { ...state }

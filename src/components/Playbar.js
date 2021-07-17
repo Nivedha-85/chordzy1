@@ -22,7 +22,7 @@ const Playbar = () => {
   }
 
   const playOrPause = (e =>
-    state.playing ? dispatch({ type: 'PAUSE' , time:state.currentTime}) : dispatch({ type: 'PLAY' })
+    state.playing ? dispatch({ type: 'PAUSE'}) : dispatch({ type: 'PLAY' })
   )
 
   const setVolume = useCallback(e =>
