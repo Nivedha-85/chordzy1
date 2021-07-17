@@ -4,11 +4,11 @@ import React, { createContext, useEffect, useReducer, useRef } from 'react'
 import { css, jsx } from '@emotion/core'
 import { initialState, reducer } from '../reducers'
 
-
+//import Topbar from './Topbar'
 import Sidebar from './Sidebar'
 import Content from './Content'
 import Playbar from './Playbar'
-
+//import Search from './Search'
 
 export const StoreContext = createContext(null)
 
@@ -21,19 +21,31 @@ const MusicPlayer = () => {
     if (state.playing) {
       audioRef.current.load()
       audioRef.current.play()
-    } else audioRef.current.pause()
+    } else {
+      audioRef.current.pause()
+    }
   }, [state.playing, state.currentSongId])
 
   useEffect(() => {
     audioRef.current.volume = state.volume
   }, [state.volume])
 
-  var song = state.media[state.currentSongId]
   
+
+  useEffect(() => {
+    audioRef.current.currentTime = state.currentTime
+  }, [state.currentTime])
+
+
+
+  //console.log(audioRef);
+  
+  const song = state.media[state.currentSongId]
 
   return (
     <StoreContext.Provider value={{ state, dispatch }}>
       <div css={CSS}>
+       {/*  <Topbar /> */}
         <Sidebar />
         <Content />
         <Playbar />
@@ -54,6 +66,12 @@ const MusicPlayer = () => {
           onTimeUpdate={e =>
             dispatch({ type: 'SET_CURRENT_TIME', time: e.target.currentTime })
           }
+          onEnded={() =>
+            dispatch({
+              type: 'SET_NEXT'
+            })
+          }
+          
         />
       </div>
     </StoreContext.Provider>

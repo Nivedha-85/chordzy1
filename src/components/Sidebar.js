@@ -37,7 +37,7 @@ const Sidebar = () => {
     <ul className="Sidebar" css={CSS}>
       {/* <div className="container"> */}
       <div className="logo">
-      <img src={logo} />
+      <img src={logo} style={{ borderRadius:80}}/>
       <div
         className="text">
           <h3>CHORDZY</h3>
@@ -54,7 +54,6 @@ const Sidebar = () => {
           className={list === state.currentPlaylist ? 'active' : ''}
           onClick={() => dispatch({ type: 'SET_PLAYLIST', playlist: list })}>
           
-
           <i className={ list=='home' ?  ["fa fa-home"] :  [list=='favorites' ? "fa fa-heart" : "fa fa-headphones" ]} />
             &nbsp;
             &nbsp;
@@ -103,7 +102,8 @@ const CSS = css`
 
   img {
     height: 60px;
-    padding-left: 20px;
+    //padding-left: 20px;
+    margin-left:20px;
     margin-bottom: 20px;
   }
 
@@ -128,35 +128,32 @@ const CSS = css`
   }
 
   li.library {
+    margin-top:30px;
     cursor: unset;
     color: #999;
     text-transform: uppercase;
     font-weight: normal;
+    margin-bottom:30px;
   }
 
-  //logo-chordzy
   .img {
     padding-left:0px;
-    // shift towards extreme left or extreme right
+    flex-basis: 40%;
     float:left;
-    
   }
   
-  //chordzy-name
   .text {
-    font-size: 20px;
-    padding-left: 20px;
+    font-size: 15px;
     position:relative;
-    //display- sets whether an element is block or inline
     display: inline flow-root list-item;
-    right:90px;
+    right:130px;
     float:right;
     font-style:italic;
   }
 
   li.new-playlist {
     position: relative;
-    top: 20px;
+    top: 40px;
 
     i {
       margin-right: 5px;

@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { useContext, useCallback, useState } from 'react'
+import React, { useContext, useCallback } from 'react'
 import { css, jsx } from '@emotion/core'
 import { StoreContext } from './index'
 import logo from '../img/logo10.png'
@@ -13,31 +13,40 @@ const formatTime = inputSeconds => {
   return `${minutes}:${seconds}`
 }
 
-const handleProgress = (currentTime, duration) => 600 * (currentTime / duration)
-
 const Playbar = () => {
   const { state, dispatch } = useContext(StoreContext)
- 
   const song = state.media[state.currentSongId]
-  
 
   if (!song) {
     return <div className="Playbar" css={CSS} />
   }
 
-  const playOrPause = () =>
-    state.playing ? dispatch({ type: 'PAUSE' }) : dispatch({ type: 'PLAY' })
-
+  const playOrPause = (e =>
+    state.playing ? dispatch({ type: 'PAUSE' , time:state.currentTime}) : dispatch({ type: 'PLAY' })
+  )
 
   const setVolume = useCallback(e =>
     dispatch({ type: 'SET_VOLUME', volume: e.target.value })
   )
 
+  const setTime = useCallback(e =>
+    dispatch({ type: 'SET_CURRENT_TIME', time: e.target.value })
+  )
+
+  const setNext = useCallback(e =>
+    dispatch({ type: 'SET_NEXT' })
+  )
+
+  const setPrev = useCallback(e =>
+    dispatch({ type: 'SET_PREV' })
+  )
+
+
   return (
     <div className="Playbar" css={CSS}>
       
       <div className="left">
-        <img src={logo} />
+        <img src={logo} style={{borderRadius:70}}/>
         {song && (
           <>
             <div>{song.title}</div>
@@ -53,7 +62,7 @@ const Playbar = () => {
               <i className={'fa fa-retweet'} />
             </div>
             <div className="backward-icon" >
-              <i className={'fa fa-fast-backward'} />
+              <i className={'fa fa-step-backward'} onClick={setPrev}/>
             </div>
             <div className="play-pause-circle" onClick={playOrPause}>
               <i
@@ -61,26 +70,25 @@ const Playbar = () => {
                 style={{ transform: state.playing ? '' : 'translateX(1.5px)' }}
               />
             </div>
-            <div className="forward-icon">
-              <i className={'fa fa-fast-forward'} />
+            <div className="forward-icon" >
+              <i className={'fa fa-step-forward'} onClick={setNext}/>
             </div>
             <div className="shuffle-icon" >
               <i className={'fa fa-random'} />
             </div>
         </div>
-        <div style={{ marginTop: 2.5 }}>
-          <span>{formatTime(Math.floor(state.currentTime))}</span>
-
-          <div className="progress-container">
-            <div
-              className="bar"
-              style={{
-                width: handleProgress(state.currentTime, state.duration)
-              }}
-            />
-          </div>
-
-          <span>{formatTime(state.duration)}</span>
+        <div style={{ marginTop: 2.5, display: "inline-flex" }}>
+          <span style={{ marginTop: 2.5}}>{formatTime(Math.floor(state.currentTime))}</span>
+          <div className="progress_bar">
+          <input
+          min="0"
+          type="range"
+          max={Math.floor(state.duration)}
+          value={Math.floor(state.currentTime)}
+          onChange={setTime}
+        />
+        </div>
+          <span style={{ marginTop: 2.5}}>{formatTime(state.duration)}</span>
         </div>
       </div>
 
@@ -111,12 +119,11 @@ const CSS = css`
   z-index: 99;
   padding: 0 20px;
   display: flex;
-  align-items: center; //vertical
-  justify-content: space-between; //horizontal
+  align-items: center;
+  justify-content: space-between;
 
   .left {
     width: 300px;
-    
 
     .artist {
       font-size: 14px;
@@ -124,6 +131,7 @@ const CSS = css`
       margin-top: 5px;
     }
   }
+
 
   .middle {
     display: flex;
@@ -148,7 +156,7 @@ const CSS = css`
       }
 
       .backward-icon{
-        font-size: 18px;
+        font-size: 22px;
         width: 35px;
         height: 35px;
         display: flex;
@@ -169,7 +177,7 @@ const CSS = css`
       }
 
       .forward-icon{
-        font-size: 18px;
+        font-size: 20px;
         width: 35px;
         height: 35px;
         display: flex;
@@ -189,19 +197,16 @@ const CSS = css`
       }
 
     }
-    .progress-container {
-      width: 600px;
-      height: 5px;
-      position: relative;
-      background-color: #4f4f4f;
-      margin-top: 10px;
-      display: inline-flex;
-      margin: 10px 10px 0px 10px;
 
-      .bar {
-        height: 100%;
-        background-color: rgb(167 167 167);
-      }
+    .progress_bar input{
+      width:600px;
+      display:inline-flex;
+      height: 3px;
+      position: relative;
+      margin: 0px 10px 15px 10px;
+      //padding-bottom:5px;
+      cursor:pointer;
+
     }
   }
 
@@ -213,8 +218,9 @@ const CSS = css`
   }
 
   img {
-    height: 60px;
-    padding-right: 20px;
+    height: 50px;
+    width:50px;
+    margin-right: 20px;
     margin-top: 0px;
     padding-left: 0px;
     float: left;
